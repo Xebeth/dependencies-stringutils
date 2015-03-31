@@ -123,6 +123,22 @@ template<typename T> std::basic_string<T>& append_format(std::basic_string<T> &S
 	return String_out;
 }
 
+template<typename T> std::basic_string<T>& pad(const std::basic_string<T> &String_in,
+											   std::basic_string<T> &String_out,
+											   size_t padding, T padChar = ' ')
+{
+	size_t length = String_in.length();
+	String_out = String_in;
+
+	if (length < padding)
+	{
+		for (size_t i = padding - length; --i;)
+			String_out += padChar;
+	}
+
+	return String_out;
+}
+
 /*! \brief Replaces all instances of Find_in by Replace_in
 	\param[in,out] String_in_out : the string in which the replacing takes place
 	\param[in] Find_in : the string to find
