@@ -22,9 +22,17 @@
 #include <UUID.h>
 
 #ifdef _DEBUG
-	#pragma comment(lib, "StringUtils.x86d.lib")
+	#ifdef _M_X64
+		#pragma comment(lib, "StringUtils.x64d.lib")
+	#else
+		#pragma comment(lib, "StringUtils.x86d.lib")
+	#endif
 #else
-	#pragma comment(lib, "StringUtils.x86.lib")
+	#ifdef _M_X64
+		#pragma comment(lib, "StringUtils.x64.lib")
+	#else
+		#pragma comment(lib, "StringUtils.x86.lib")
+	#endif
 #endif // _DEBUG
 
 #undef _STRING_UTILS_SDK_INCLUDE_
