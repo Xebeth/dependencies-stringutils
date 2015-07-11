@@ -3,7 +3,7 @@
 	filename	: 	string_t.h
 	author		:	xebeth`
 	copyright	:	North Edge (2011)
-	purpose		:	TCHAR based std::basic_string<T> with formatting support
+	purpose		:	wchar_t based std::basic_string<T> with formatting support
 **************************************************************************/
 #ifndef __STRING_T_H__
 #define __STRING_T_H__
@@ -123,24 +123,17 @@ template<typename T> std::basic_string<T>& append_format(std::basic_string<T> &S
 	return String_out;
 }
 
-/*! \brief Pads a string with a repeated character
-	\param[in] String_in : the string to pad out
-	\param[out] String_out : the padded string
-	\param[in] Padding_in : the amount of padding to add to the string
-	\param[in] PadChar_in : the padding character
-	\return the padded string
-*/
 template<typename T> std::basic_string<T>& pad(const std::basic_string<T> &String_in,
 											   std::basic_string<T> &String_out,
-											   size_t Padding_in, T PadChar_in = ' ')
+											   size_t padding, T padChar = ' ')
 {
 	size_t length = String_in.length();
 	String_out = String_in;
 
-	if (length < Padding_in)
+	if (length < padding)
 	{
-		for (size_t i = Padding_in - length; --i;)
-			String_out += PadChar_in;
+		for (size_t i = padding - length; --i;)
+			String_out += padChar;
 	}
 
 	return String_out;
@@ -150,8 +143,6 @@ template<typename T> std::basic_string<T>& pad(const std::basic_string<T> &Strin
 	\param[in,out] String_in_out : the string in which the replacing takes place
 	\param[in] Find_in : the string to find
 	\param[in] Replace_in : the string to replace with
-	\param[in] StrPos_in : the starting position
-	\return the resulting string
 */
 template<typename T> typename std::basic_string<T>& replace(std::basic_string<T> &String_in_out, const std::basic_string<T> &Find_in, 
 															const std::basic_string<T> &Replace_in, typename std::basic_string<T>::size_type StrPos_in = 0UL)
@@ -168,54 +159,31 @@ template<typename T> typename std::basic_string<T>& replace(std::basic_string<T>
 	return String_in_out;
 }
 
-/*! \brief Predicate class used to filter characters in a string
-	\see std::remove_if in <algorithm>
-*/
 template <typename T> class purgeable_chars
 {
 public:
-	/*! \brief Constructor
-		\param[in] pExclusions_in : a string containing the filtered characters
-		\param[in] Mask_in : a mask controlling the class of characters to filter (e.g. _CONTROL | _LOWER; see ctype.h)
-		\param [in] flag specifying if the class test is inverted
-	*/
 	purgeable_chars(const T* pExclusions_in, UINT Mask_in, bool Invert_in)
 		: m_pExclusions(pExclusions_in), m_PurgeMask(Mask_in), m_Invert(Invert_in ? 0 : 1)  {}
 
-	/*! \brief cast operator for STL functions using predicates
-		\return true if a character is filtered; false otherwise
-	*/
 	template<typename T> bool operator() (T val);
 
-	/*! \brief template specialization for wide characters
-		\return true if a character is filtered; false otherwise
-	*/
 	template<> bool operator() (wchar_t val)
 	{ return ((m_pExclusions == NULL || wcschr(m_pExclusions, val) == NULL) && iswctype(val, m_PurgeMask) == m_Invert); }
-	/*! \brief template specialization for characters
-		\return true if a character is filtered; false otherwise
-	*/
 	template<> bool operator() (char val)
 	{ return ((m_pExclusions == NULL || strchr(m_pExclusions, val) == NULL) && _isctype(val, m_PurgeMask) == m_Invert); }
 
 private:
-	//! string containing the filtered characters
 	const T* m_pExclusions;
-	//! a mask controlling the class of characters to filter (e.g. _CONTROL | _LOWER; see ctype.h)
 	UINT m_PurgeMask;
-	//! flag specifying if the class test is inverted
 	int m_Invert;
 };
 
 /*! \brief Removes all control characters
 	\param[in,out] String_in_out : the string to clean up
-	\param[in] Mask_in : a mask controlling the class of characters to filter (e.g. _CONTROL | _LOWER; see ctype.h)
-	\param[in] pExclusions_in : a string containing the filtered characters
-	\param [in] flag specifying if the class test is inverted
 */
-template<typename T> std::basic_string<T>& purge(std::basic_string<T> &String_in_out, UINT Mask_in, const T* pExcludedChars_in = NULL, bool Invert_in = false)
+template<typename T> std::basic_string<T>& purge(std::basic_string<T> &String_in_out, UINT Mask_in, T* pExcludedChars = NULL, bool Invert_in = false)
 {
-	purgeable_chars<T> PurgeablePredicate(pExcludedChars_in, Mask_in, Invert_in);
+	purgeable_chars<T> PurgeablePredicate(pExcludedChars, Mask_in, Invert_in);
 
 	String_in_out.erase(remove_if(String_in_out.begin(),String_in_out.end(), PurgeablePredicate), String_in_out.end());  
 
@@ -224,10 +192,8 @@ template<typename T> std::basic_string<T>& purge(std::basic_string<T> &String_in
 
 /*! \brief Normalizes a path by settings all the slashes forward and adding a final slash if needed
 	\param[in,out] Path_in_out : the path to normalize
-	\param[in] bForward_in : flag specifying if backslashes are replaced by forward slashes
-	\param[in] LastSlash_in : flag specifying if a final slash is added at the end of the path
 */
-template<typename T> std::basic_string<T>& normalize_path(std::basic_string<T> &Path_in_out, bool bForward_in = false, bool bLastSlash_in = true)
+template<typename T> std::basic_string<T>& normalize_path(std::basic_string<T> &Path_in_out, bool bForward_in = false, bool LastSlash_in = true)
 {
 	if (Path_in_out.empty() == false)
 	{
@@ -239,7 +205,7 @@ template<typename T> std::basic_string<T>& normalize_path(std::basic_string<T> &
 
 		replace(Path_in_out, FindStr, ReplaceStr);
 
-		if (bLastSlash_in && Path_in_out.back() != ReplaceStr[0])
+		if (LastSlash_in && Path_in_out.back() != ReplaceStr[0])
 			Path_in_out += ReplaceStr[0];
 	}
 
