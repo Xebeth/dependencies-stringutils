@@ -177,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="CryptUtils.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StringHash.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="string_t.h" />
     <ClInclude Include="utf8_convert.h" />

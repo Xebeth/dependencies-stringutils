@@ -17,6 +17,9 @@
     <ClInclude Include="UUID.h">
       <Filter>string</Filter>
     </ClInclude>
+    <ClInclude Include="StringHash.h">
+      <Filter>hash</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="string">
@@ -27,6 +30,9 @@
     </Filter>
     <Filter Include="Precompiled headers">
       <UniqueIdentifier>{a62dabbd-9358-4713-86a7-cdfe87749703}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="hash">
+      <UniqueIdentifier>{3b587260-392c-4208-a284-7464259f56eb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
