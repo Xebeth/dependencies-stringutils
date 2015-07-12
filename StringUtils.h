@@ -19,6 +19,7 @@
 #include <utf8_convert.h>
 
 #include <CryptUtils.h>
+#include <StringHash.h>
 #include <UUID.h>
 
 #ifdef _DEBUG

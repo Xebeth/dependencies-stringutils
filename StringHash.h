@@ -14,30 +14,30 @@ purpose		:	wchar_t based std::basic_string<T> with formatting support
 
 namespace StringUtils
 {
-	class Hash
+	template<typename T> class Hash
 	{
 	public:
-		template <size_t N> __forceinline Hash(const char(&str)[N]) { m_val = _Hash(str); }
+		template <size_t N> __forceinline Hash(const T(&str)[N]) { m_val = _Hash(str); }
 		operator unsigned() { return m_val; }
 
 	private:
-		template<size_t N> __forceinline unsigned _Hash(const char(&str)[N])
+		template<size_t N> __forceinline unsigned _Hash(const T(&str)[N])
 		{
-			typedef const char(&truncated_str)[N - 4];
+			typedef const T(&truncated_str)[N - 4];
 			return str[N - 1] + 65599 * (str[N - 2] + 65599 * (str[N - 3] + 65599 * (str[N - 4] + 65599 * _Hash((truncated_str)str))));
 		}
-		__forceinline unsigned _Hash(const char(&str)[4])
+		__forceinline unsigned _Hash(const T(&str)[4])
 		{
-			typedef const char(&truncated_str)[3];
+			typedef const T(&truncated_str)[3];
 			return str[3] + 65599 * _Hash((truncated_str)str);
 		}
-		__forceinline unsigned _Hash(const char(&str)[3])
+		__forceinline unsigned _Hash(const T(&str)[3])
 		{
-			typedef const char(&truncated_str)[2];
+			typedef const T(&truncated_str)[2];
 			return str[2] + 65599 * _Hash((truncated_str)str);
 		}
-		__forceinline unsigned _Hash(const char(&str)[2]) { return str[1] + 65599 * str[0]; }
-		__forceinline unsigned _Hash(const char(&str)[1]) { return str[0]; }
+		__forceinline unsigned _Hash(const T(&str)[2]) { return str[1] + 65599 * str[0]; }
+		__forceinline unsigned _Hash(const T(&str)[1]) { return str[0]; }
 
 		unsigned m_val;
 	};
