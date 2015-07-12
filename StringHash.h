@@ -18,28 +18,28 @@ namespace StringUtils
 	{
 	public:
 		template <size_t N> __forceinline Hash(const T(&str)[N]) { m_val = _Hash(str); }
-		operator unsigned int() { return m_val; }
+		operator DWORD() { return m_val; }
 
 	private:
-		template<size_t N> __forceinline unsigned int _Hash(const T(&str)[N])
+		template<size_t N> __forceinline DWORD _Hash(const T(&str)[N])
 		{
 			typedef const T(&truncated_str)[N - 4];
 			return str[N - 1] + 65599 * (str[N - 2] + 65599 * (str[N - 3] + 65599 * (str[N - 4] + 65599 * _Hash((truncated_str)str))));
 		}
-		__forceinline unsigned int _Hash(const T(&str)[4])
+		__forceinline DWORD _Hash(const T(&str)[4])
 		{
 			typedef const T(&truncated_str)[3];
 			return str[3] + 65599 * _Hash((truncated_str)str);
 		}
-		__forceinline unsigned int _Hash(const T(&str)[3])
+		__forceinline DWORD _Hash(const T(&str)[3])
 		{
 			typedef const T(&truncated_str)[2];
 			return str[2] + 65599 * _Hash((truncated_str)str);
 		}
-		__forceinline unsigned int _Hash(const T(&str)[2]) { return str[1] + 65599 * str[0]; }
-		__forceinline unsigned int _Hash(const T(&str)[1]) { return str[0]; }
+		__forceinline DWORD _Hash(const T(&str)[2]) { return str[1] + 65599 * str[0]; }
+		__forceinline DWORD _Hash(const T(&str)[1]) { return str[0]; }
 
-		unsigned int m_val;
+		DWORD m_val;
 	};
 }
 
