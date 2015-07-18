@@ -191,12 +191,18 @@ public:
 		\return true if a character is filtered; false otherwise
 	*/
 	template<> bool operator() (wchar_t val)
-	{ return ((m_pExclusions == NULL || wcschr(m_pExclusions, val) == NULL) && iswctype(val, m_PurgeMask) == m_Invert); }
+	{
+		return ((m_pExclusions == NULL || wcschr(m_pExclusions, val) == NULL) 
+			 && (m_PurgeMask   == 0U   || iswctype(val, m_PurgeMask) == m_Invert));
+	}
 	/*! \brief template specialization for characters
 		\return true if a character is filtered; false otherwise
 	*/
 	template<> bool operator() (char val)
-	{ return ((m_pExclusions == NULL || strchr(m_pExclusions, val) == NULL) && _isctype(val, m_PurgeMask) == m_Invert); }
+	{
+		return ((m_pExclusions == NULL || strchr(m_pExclusions, val) == NULL)
+			 && (m_PurgeMask   == 0U   || _isctype(val, m_PurgeMask) == m_Invert));
+	}
 
 private:
 	//! string containing the filtered characters
