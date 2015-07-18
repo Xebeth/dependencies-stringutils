@@ -231,6 +231,38 @@ template<typename T> typename std::basic_string<T>::size_type initialize_path(co
 	return 0UL;
 }
 
+/*! \brief Retrieves the path given a filename and normalizes it
+	\param[in] pPath_in : the string containing the filename
+	\param[out] Path_out : the normalized path
+	\return the length of the normalized path
+*/
+template<typename T> typename std::basic_string<T>::size_type filepath(const T* pPath_in, std::basic_string<T> &Path_out, bool bForward_in = false)
+{
+	if (pPath_in != NULL)
+	{
+		DWORD Attributes = ::GetFileAttributes(pPath_in);
+
+		if (Attributes != INVALID_FILE_ATTRIBUTES)
+		{
+			std::basic_string<T> path = pPath_in;
+
+			// check if the path is not already a directory
+			if ((Attributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
+			{
+				// find the last backslash
+				std::basic_string<T>::size_type position = path.find_last_of('\\');
+
+				if (position != std::basic_string<T>::npos)
+					path[position] = '\0';
+			}
+
+			return initialize_path(path.c_str(), Path_out, bForward_in);
+		}
+	}
+
+	return 0UL;
+}
+
 /*! \brief Tokenize a string given a delimiter and separator
 	\param[in] String_in : the string to tokenize
 	\param[out] Tokens_out : the tokens parsed from the string
