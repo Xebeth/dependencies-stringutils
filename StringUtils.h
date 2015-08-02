@@ -15,6 +15,7 @@
 
 #define _STRING_UTILS_SDK_INCLUDE_
 
+#include <hash_map.h>
 #include <string_t.h>
 #include <utf8_convert.h>
 
