@@ -23,6 +23,8 @@
 #include <StringHash.h>
 #include <UUID.h>
 
+#define _H(x) StringUtils::Hash(x)
+
 #ifdef _DEBUG
 	#ifdef _M_X64
 		#pragma comment(lib, "StringUtils.x64d.lib")

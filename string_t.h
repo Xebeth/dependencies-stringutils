@@ -22,7 +22,7 @@ typedef std::basic_istream<TCHAR> istream_t;
 	#define STRING_T_NPOS string_t::npos
 #endif
 
-#define STRLEN(s) (sizeof(s)/sizeof(s[0]))
+#define STRLEN(s) (sizeof(s)/sizeof(s[0]) - sizeof(s[0]))
 
 template<typename T> typename std::basic_string<T>::size_type get_format_length(const T* pFormat_in, va_list ArgList_in);
 template<> std::basic_string<wchar_t>::size_type get_format_length(const wchar_t* pFormat_in, va_list ArgList_in);

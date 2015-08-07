@@ -18,7 +18,7 @@ namespace StringUtils
 	{
 	public:
 		template <size_t N> __forceinline Hash(const T(&str)[N]) { m_val = _Hash(str); }
-		operator DWORD() { return m_val; }
+		operator DWORD() const { return m_val; }
 
 	private:
 		template<size_t N> __forceinline DWORD _Hash(const T(&str)[N])
