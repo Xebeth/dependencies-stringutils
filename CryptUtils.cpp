@@ -109,7 +109,7 @@ size_t CryptUtils::GenerateMachineID(string_t &MachineID_out, const TCHAR *pRoot
 	HW_PROFILE_INFO hwProfileInfo;
 	string_t RootPath;
 
-	if (pRootPath_in != NULL)
+	if (pRootPath_in != nullptr)
 	{
 		RootPath = pRootPath_in;
 		// normalize the path
@@ -122,7 +122,7 @@ size_t CryptUtils::GenerateMachineID(string_t &MachineID_out, const TCHAR *pRoot
 	MachineID_out.clear();
 
 	if (GetVolumeInformation(pRootPath_in, VolumeName, _MAX_PATH,
-		&VolumeSerialNumber, NULL, NULL, FileSystem, _MAX_PATH)
+		&VolumeSerialNumber, nullptr, nullptr, FileSystem, _MAX_PATH)
 		&& GetCurrentHwProfile(&hwProfileInfo))
 	{
 		string_t SerialNumber;
@@ -171,7 +171,7 @@ void CryptUtils::HexToString(const string_t &Input_in, string_t &Output_out)
 	{
 		HexBlock = Input_in.substr((i + 1) * CharSize, CharSize);
 		HexBlock += Input_in.substr(i * CharSize, CharSize);
-		Hex = _tcstol(HexBlock.c_str(), NULL, 16);
+		Hex = _tcstol(HexBlock.c_str(), nullptr, 16);
 		*(pCurrentChar++) = (TCHAR)Hex;
 	}
 

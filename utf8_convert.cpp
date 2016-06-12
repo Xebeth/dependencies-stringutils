@@ -18,16 +18,16 @@
 std::string& convert_ansi(const string_t& String_in, std::string& String_out, UINT CharSet_in)
 {
 	// convert the string
-	int sizeNeeded = WideCharToMultiByte(CharSet_in, 0UL, String_in.c_str(), (int)String_in.length(),
-										 const_cast<char*>(String_out.c_str()), 0, NULL, NULL);
+	int sizeNeeded = WideCharToMultiByte(CharSet_in, 0UL, String_in.c_str(), static_cast<int>(String_in.length()),
+										 const_cast<char*>(String_out.c_str()), 0, nullptr, nullptr);
 
 	if (sizeNeeded > 0)
 	{
 		// reserve enough space to hold the converted text
 		String_out.resize(sizeNeeded);
 
-		WideCharToMultiByte(CharSet_in, 0UL, String_in.c_str(), (int)String_in.length(),
-							const_cast<char*>(String_out.c_str()), sizeNeeded, NULL, NULL);
+		WideCharToMultiByte(CharSet_in, 0UL, String_in.c_str(), static_cast<int>(String_in.length()),
+							const_cast<char*>(String_out.c_str()), sizeNeeded, nullptr, nullptr);
 	}
 
 	return String_out;
@@ -43,7 +43,7 @@ std::string& convert_ansi(const string_t& String_in, std::string& String_out, UI
 string_t& convert_utf8(const std::string& String_in, string_t& String_out, UINT CharSet_in)
 {
 	// convert the string
-	int sizeNeeded = MultiByteToWideChar(CharSet_in, 0UL, String_in.c_str(), (int)String_in.length(),
+	int sizeNeeded = MultiByteToWideChar(CharSet_in, 0UL, String_in.c_str(), static_cast<int>(String_in.length()),
 										 const_cast<TCHAR*>(String_out.c_str()), 0);
 
 	if (sizeNeeded > 0)
@@ -51,7 +51,7 @@ string_t& convert_utf8(const std::string& String_in, string_t& String_out, UINT 
 		// reserve enough space to hold the converted text
 		String_out.resize(sizeNeeded);
 
-		MultiByteToWideChar(CharSet_in, 0UL, String_in.c_str(), (int)String_in.length(),
+		MultiByteToWideChar(CharSet_in, 0UL, String_in.c_str(), static_cast<int>(String_in.length()),
 							const_cast<TCHAR*>(String_out.c_str()), sizeNeeded);
 	}
 
@@ -64,7 +64,7 @@ string_t& convert_utf8(const std::string& String_in, string_t& String_out, UINT 
 */
 size_t utf8_len(const std::string& String_in)
 {
-	return MultiByteToWideChar(CP_UTF8, 0UL, String_in.c_str(), (int)String_in.length(), NULL, 0);
+	return MultiByteToWideChar(CP_UTF8, 0UL, String_in.c_str(), (int)String_in.length(), nullptr, 0);
 }
 
 /*! \brief Retrieves the length of a string if it were to be converted to ANSI
@@ -73,5 +73,5 @@ size_t utf8_len(const std::string& String_in)
 */
 size_t ansi_len(const string_t& String_in)
 {
-	return WideCharToMultiByte(CP_ACP, 0UL, String_in.c_str(), (int)String_in.length(), NULL, 0, NULL, NULL);
+	return WideCharToMultiByte(CP_ACP, 0UL, String_in.c_str(), static_cast<int>(String_in.length()), nullptr, 0, nullptr, nullptr);
 }

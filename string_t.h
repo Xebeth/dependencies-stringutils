@@ -40,7 +40,7 @@ template<> std::basic_string<char>::size_type format_arglist(char** pBuffer_in_o
 */
 template<typename T> std::basic_string<T>& format(std::basic_string<T> &String_out, const T* pFormat_in, va_list ArgList_in)
 {
-	if (pFormat_in != NULL)
+	if (pFormat_in != nullptr)
 	{
 		std::basic_string<T>::size_type DataSize, StrLength = get_format_length(pFormat_in, ArgList_in);
 
@@ -52,7 +52,7 @@ template<typename T> std::basic_string<T>& format(std::basic_string<T> &String_o
 			T *pBuffer = new T[DataSize];
 
 			// make sure the allocation succeeded
-			if (pBuffer != NULL)
+			if (pBuffer != nullptr)
 			{
 				// clear the buffer
 				memset(pBuffer, 0, DataSize);
@@ -194,7 +194,7 @@ public:
 	*/
 	template<> bool operator() (wchar_t val)
 	{
-		return ((m_pExclusions == NULL || wcschr(m_pExclusions, val) == NULL) 
+		return ((m_pExclusions == nullptr || wcschr(m_pExclusions, val) == nullptr) 
 			 && (m_PurgeMask   == 0U   || iswctype(val, m_PurgeMask) == m_Invert));
 	}
 	/*! \brief template specialization for characters
@@ -202,7 +202,7 @@ public:
 	*/
 	template<> bool operator() (char val)
 	{
-		return ((m_pExclusions == NULL || strchr(m_pExclusions, val) == NULL)
+		return ((m_pExclusions == nullptr || strchr(m_pExclusions, val) == nullptr)
 			 && (m_PurgeMask   == 0U   || _isctype(val, m_PurgeMask) == m_Invert));
 	}
 
@@ -221,7 +221,7 @@ private:
 	\param[in] pExclusions_in : a string containing the filtered characters
 	\param [in] flag specifying if the class test is inverted
 */
-template<typename T> std::basic_string<T>& purge(std::basic_string<T> &String_in_out, UINT Mask_in, const T* pExcludedChars_in = NULL, bool Invert_in = false)
+template<typename T> std::basic_string<T>& purge(std::basic_string<T> &String_in_out, UINT Mask_in, const T* pExcludedChars_in = nullptr, bool Invert_in = false)
 {
 	purgeable_chars<T> PurgeablePredicate(pExcludedChars_in, Mask_in, Invert_in);
 
@@ -261,7 +261,7 @@ template<typename T> std::basic_string<T>& normalize_path(std::basic_string<T> &
 */
 template<typename T> typename std::basic_string<T>::size_type initialize_path(const T* pPath_in, std::basic_string<T> &Path_out, bool bForward_in = false)
 {
-	if (pPath_in != NULL)
+	if (pPath_in != nullptr)
 	{
 		Path_out.assign(pPath_in);
 		normalize_path(Path_out, bForward_in);
@@ -280,7 +280,7 @@ template<typename T> typename std::basic_string<T>::size_type initialize_path(co
 */
 template<typename T> typename std::basic_string<T>::size_type filepath(const T* pPath_in, std::basic_string<T> &Path_out, bool bForward_in = false)
 {
-	if (pPath_in != NULL)
+	if (pPath_in != nullptr)
 	{
 		DWORD Attributes = ::GetFileAttributes(pPath_in);
 

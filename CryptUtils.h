@@ -20,7 +20,7 @@ public:
 	static string_t CombineHash(const string_t &InputStr1_in,
 								const string_t &InputStr2_in);
 	static size_t GenerateMachineID(string_t &MachineID_out,
-									const TCHAR *pRootPath_in = NULL);
+									const TCHAR *pRootPath_in = nullptr);
 
 	static void Crypt(const string_t &CryptKey_in,
 					  const string_t &InputStr_in,
