@@ -26,16 +26,17 @@ CryptUtils::CryptUtils()
 
 void CryptUtils::Crypt(const string_t &CryptKey_in, const string_t &InputStr_in, string_t &OuputStr_out)
 {
+	unsigned long i = 0UL, j = 0UL, k = 0UL, t = 0UL;
 	TCHAR *pTempStr = _tcsdup(InputStr_in.c_str());
 	const TCHAR *pKeyData = CryptKey_in.data();
 	size_t InputLength = InputStr_in.size();
-	unsigned long i, j, k, t;
+	
 	TCHAR temp = NULL;
 
 	OuputStr_out.clear();
 
 	for(i = 0UL; i < 256UL; ++i)
-		m_SubstBox1[i] = (TCHAR)i;
+		m_SubstBox1[i] = static_cast<TCHAR>(i);
 
 	// initialize the substitution box with the user key
 	for(i = j = 0UL; i < 256UL; ++i)
@@ -62,7 +63,7 @@ void CryptUtils::Crypt(const string_t &CryptKey_in, const string_t &InputStr_in,
 			// increment i
 			i = (i + 1UL) % 256UL;
 			// increment j
-			j = (j + (unsigned long) m_SubstBox1[i]) % 256UL;
+			j = (j + m_SubstBox1[i]) % 256UL;
 
 			// Scramble SBox #1 further so encryption routine
 			// will repeat itself at greater interval
@@ -71,7 +72,7 @@ void CryptUtils::Crypt(const string_t &CryptKey_in, const string_t &InputStr_in,
 			m_SubstBox1[j] = temp;
 
 			// Get ready to create pseudo random   byte for encryption key
-			t = ((unsigned long) m_SubstBox1[i] + (unsigned long) m_SubstBox1[j]) % 256UL;
+			t = (m_SubstBox1[i] + m_SubstBox1[j]) % 256UL;
 			// xor with the data and done
 			temp = (pTempStr[k] ^ m_SubstBox1[t]);
 			// fix corruption in some cases

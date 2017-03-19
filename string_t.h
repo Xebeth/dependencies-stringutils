@@ -32,6 +32,10 @@ template<typename T> typename std::basic_string<T>::size_type format_arglist(T**
 template<> std::basic_string<wchar_t>::size_type format_arglist(wchar_t** pBuffer_in_out, std::basic_string<wchar_t>::size_type BufferSize_in, const wchar_t* pFormat_in, va_list ArgList_in);
 template<> std::basic_string<char>::size_type format_arglist(char** pBuffer_in_out, std::basic_string<char>::size_type BufferSize_in, const char* pFormat_in, va_list ArgList_in);
 
+template<typename T> errno_t open_file(FILE** File_in_out, const std::basic_string<T>& Filename_in, const char* OpenMode_in);
+template<> errno_t open_file(FILE **pFile_in_out, const std::basic_string<wchar_t> &Filename_in, const char* OpenMode_in);
+template<> errno_t open_file(FILE **pFile_in_out, const std::basic_string<char> &Filename_in, const char* OpenMode_in);
+
 /*! \brief Formats a string a returns a reference to it using an argument list and format
 	\param[out] String_out : the string to be formatted
 	\param[in] pFormat_in : the format of the string
@@ -42,9 +46,9 @@ template<typename T> std::basic_string<T>& format(std::basic_string<T> &String_o
 {
 	if (pFormat_in != nullptr)
 	{
-		std::basic_string<T>::size_type DataSize, StrLength = get_format_length(pFormat_in, ArgList_in);
+		std::basic_string<T>::size_type StrLength = get_format_length(pFormat_in, ArgList_in);
+		std::basic_string<T>::size_type DataSize = StrLength * sizeof(T);
 
-		DataSize = StrLength * sizeof(T);
 		// abort if _vsctprintf failed
 		if (DataSize != 0)
 		{
@@ -237,21 +241,35 @@ template<typename T> std::basic_string<T>& purge(std::basic_string<T> &String_in
 */
 template<typename T> std::basic_string<T>& normalize_path(std::basic_string<T> &Path_in_out, bool bForward_in = false, bool bLastSlash_in = true)
 {
-	if (Path_in_out.empty() == false)
+	Path_in_out = normalize_path(const_cast<const std::basic_string<T>&>(Path_in_out), bForward_in, bLastSlash_in);
+
+	return Path_in_out;
+}
+
+/*! \brief Normalizes a path by settings all the slashes forward and adding a final slash if needed
+\param[in,out] Path_in_out : the path to normalize
+\param[in] bForward_in : flag specifying if backslashes are replaced by forward slashes
+\param[in] LastSlash_in : flag specifying if a final slash is added at the end of the path
+*/
+template<typename T> std::basic_string<T> normalize_path(const std::basic_string<T> &Path_in, bool bForward_in = false, bool bLastSlash_in = true)
+{
+	std::basic_string<T> Result { Path_in };
+
+	if (Result.empty() == false)
 	{
 		std::basic_string<T> FindStr, ReplaceStr;
 		const T cForward = '/', cBack = '\\';
-		
+
 		ReplaceStr += (bForward_in ? cForward : cBack);
 		FindStr += (bForward_in ? cBack : cForward);
 
-		replace(Path_in_out, FindStr, ReplaceStr);
+		replace(Result, FindStr, ReplaceStr);
 
-		if (bLastSlash_in && Path_in_out.back() != ReplaceStr[0])
-			Path_in_out += ReplaceStr[0];
+		if (bLastSlash_in && Result.back() != ReplaceStr[0])
+			Result += ReplaceStr[0];
 	}
 
-	return Path_in_out;
+	return Result;
 }
 
 /*! \brief Initializes a string with a path and normalizes it
@@ -315,7 +333,7 @@ template<typename T> typename std::basic_string<T>::size_type filepath(const T* 
 template<typename T> typename std::basic_string<T>::size_type tokenize(const std::basic_string<T> &String_in, std::list< std::basic_string<T> > &Tokens_out,
 																	   const T* Separator_in, const T* Delimiter_in)
 {
-	std::basic_string<T>::size_type DelimiterPos = 0, SeparatorPos = 0, NotSeparatorPos = 0, LastPos;
+	typename std::basic_string<T>::size_type DelimiterPos = 0, SeparatorPos = 0, NotSeparatorPos = 0, LastPos;
 
 	SeparatorPos = String_in.find_first_of(Separator_in);
 
@@ -393,6 +411,33 @@ template<typename T> typename std::basic_string<T>::size_type tokenize(const std
 	}
 
 	return Tokens_out.size();
+}
+
+template<typename T> std::string& get_file_contents(const std::basic_string<T> &FilePath_in, std::string &Contents_out, bool Binary_in = false)
+{
+	Contents_out = get_file_contents(FilePath_in, Binary_in);
+
+	return Contents_out;
+}
+
+template<typename T> std::string get_file_contents(const std::basic_string<T> &FilePath_in, bool Binary_in = false)
+{
+	FILE *fp{ nullptr };
+	std::string Result;
+	auto err{ open_file<T>(&fp, FilePath_in.c_str(), Binary_in ? "rb" : "r") };
+
+	if (fp)
+	{
+		fseek(fp, 0, SEEK_END);
+		Result.resize(std::ftell(fp));
+		rewind(fp);
+		fread(&Result[0], sizeof(char), Result.size(), fp);
+		fclose(fp);
+
+		return Result;
+	}
+
+	throw(err);
 }
 
 #endif//__STRING_T_H__

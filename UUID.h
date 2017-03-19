@@ -19,12 +19,11 @@ namespace StringUtils
 	{
 	public:
 		//! \brief UUID default constructor
-		UUID() : m_Data1(0), m_Data2(0), m_Data3(0),
-				 m_Data4(0), m_Data5_1(0), m_Data5_2(0) {}
+		UUID() : m_Data1(0), m_Data2(0), m_Data3(0), m_Data4(0), m_Data5_1(0), m_Data5_2(0) {}
 		/*! \brief UUID constructor
 			\param[in] pUID_in : the string version of the UUID
 		*/
-		explicit UUID(const TCHAR* pUID_in) { FromString(pUID_in); }
+		explicit UUID(const TCHAR* pUID_in) : UUID() { FromString(pUID_in); }
 
 		/*! \brief Implicit conversion to a string buffer
 			\return the string representation of the UUID
