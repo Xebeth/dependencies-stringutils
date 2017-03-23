@@ -11,6 +11,7 @@
 #include <NonCopyable.h>
 #include <tchar.h>
 #include <string>
+#include <vector>
 #include <list>
 
 #define _STRING_UTILS_SDK_INCLUDE_

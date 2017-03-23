@@ -7,6 +7,7 @@
 **************************************************************************/
 #include "stdafx.h"
 #include <locale>
+#include <vector>
 
 #include "string_t.h"
 #include "NonCopyable.h"

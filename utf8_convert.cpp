@@ -7,6 +7,7 @@
 **************************************************************************/
 #include "stdafx.h"
 
+#include <vector>
 #include "string_t.h"
 #include "utf8_convert.h"
 

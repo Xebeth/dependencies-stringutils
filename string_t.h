@@ -413,6 +413,38 @@ template<typename T> typename std::basic_string<T>::size_type tokenize(const std
 	return Tokens_out.size();
 }
 
+template<typename T> std::vector<std::basic_string<T>> split_path(const std::basic_string<T>& Path_in)
+{
+	std::basic_string<T> normalizedPath = Path_in;
+	std::vector<std::basic_string<T>> result;	
+
+	const T* pch = normalize_path(normalizedPath, true).c_str();
+	const T* start = pch;
+
+	for (; *pch; ++pch)
+	{
+		if (*pch == '/')
+		{
+			if (start != pch)
+			{
+				std::basic_string<T> part(start, pch);
+
+				if (part.length() > 0)
+					result.push_back(part);
+			}
+
+			start = pch + 1;
+		}
+	}
+
+	std::basic_string<T> part(start);
+
+	if (part.length() > 0)
+		result.push_back(part);
+
+	return result;
+}
+
 template<typename T> std::string& get_file_contents(const std::basic_string<T> &FilePath_in, std::string &Contents_out, bool Binary_in = false)
 {
 	Contents_out = get_file_contents(FilePath_in, Binary_in);
