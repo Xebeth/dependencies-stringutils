@@ -80,12 +80,12 @@ public:
 		return (_Val.second);
 		}
 
-	float& _Get_max_bucket_size() _NOEXCEPT
+	float& _Get_max_bucket_size() noexcept
 		{	// return reference to current maximum bucket size
 		return (_Max_buckets);
 		}
 
-	const float& _Get_max_bucket_size() const _NOEXCEPT
+	const float& _Get_max_bucket_size() const noexcept
 		{	// return const reference to current maximum bucket size
 		return (_Max_buckets);
 		}
@@ -216,34 +216,34 @@ public:
 		_Mybase::swap(_Right);
 		}
 
-	hash_map(_XSTD initializer_list<value_type> _Ilist)
+	hash_map(std::initializer_list<value_type> _Ilist)
 		: _Mybase(key_compare(), allocator_type())
 		{	// construct from initializer_list, defaults
 		this->insert(_Ilist.begin(), _Ilist.end());
 		}
 
-	hash_map(_XSTD initializer_list<value_type> _Ilist,
+	hash_map(std::initializer_list<value_type> _Ilist,
 		const key_compare& _Pred)
 		: _Mybase(_Pred, allocator_type())
 		{	// construct from initializer_list, comparator
 		this->insert(_Ilist.begin(), _Ilist.end());
 		}
 
-	hash_map(_XSTD initializer_list<value_type> _Ilist,
+	hash_map(std::initializer_list<value_type> _Ilist,
 		const key_compare& _Pred, const allocator_type& _Al)
 		: _Mybase(_Pred, _Al)
 		{	// construct from initializer_list, comparator, and allocator
 		this->insert(_Ilist.begin(), _Ilist.end());
 		}
 
-	_Myt& operator=(_XSTD initializer_list<value_type> _Ilist)
+	_Myt& operator=(std::initializer_list<value_type> _Ilist)
 		{	// assign initializer_list
 		this->clear();
 		this->insert(_Ilist.begin(), _Ilist.end());
 		return (*this);
 		}
 
-//	void insert(_XSTD initializer_list<value_type> _Ilist)
+//	void insert(std::initializer_list<value_type> _Ilist)
 //		{	// insert initializer_list
 //		this->insert(_Ilist.begin(), _Ilist.end());
 //		}
@@ -278,32 +278,32 @@ public:
 	typedef _STD reverse_iterator<iterator> reverse_iterator;
 	typedef _STD reverse_iterator<const_iterator> const_reverse_iterator;
 
-	reverse_iterator rbegin() _NOEXCEPT
+	reverse_iterator rbegin() noexcept
 		{	// return iterator for beginning of reversed mutable sequence
 		return (reverse_iterator(this->end()));
 		}
 
-	const_reverse_iterator rbegin() const _NOEXCEPT
+	const_reverse_iterator rbegin() const noexcept
 		{	// return iterator for beginning of reversed nonmutable sequence
 		return (const_reverse_iterator(this->end()));
 		}
 
-	reverse_iterator rend() _NOEXCEPT
+	reverse_iterator rend() noexcept
 		{	// return iterator for end of reversed mutable sequence
 		return (reverse_iterator(this->begin()));
 		}
 
-	const_reverse_iterator rend() const _NOEXCEPT
+	const_reverse_iterator rend() const noexcept
 		{	// return iterator for end of reversed nonmutable sequence
 		return (const_reverse_iterator(this->begin()));
 		}
 
-	const_reverse_iterator crbegin() const _NOEXCEPT
+	const_reverse_iterator crbegin() const noexcept
 		{	// return iterator for beginning of reversed nonmutable sequence
 		return (rbegin());
 		}
 
-	const_reverse_iterator crend() const _NOEXCEPT
+	const_reverse_iterator crend() const noexcept
 		{	// return iterator for end of reversed nonmutable sequence
 		return (rend());
 		}
@@ -468,34 +468,34 @@ public:
 		_Mybase::swap(_Right);
 		}
 
-	hash_multimap(_XSTD initializer_list<value_type> _Ilist)
+	hash_multimap(std::initializer_list<value_type> _Ilist)
 		: _Mybase(key_compare(), allocator_type())
 		{	// construct from initializer_list, defaults
 		this->insert(_Ilist.begin(), _Ilist.end());
 		}
 
-	hash_multimap(_XSTD initializer_list<value_type> _Ilist,
+	hash_multimap(std::initializer_list<value_type> _Ilist,
 		const key_compare& _Pred)
 		: _Mybase(_Pred, allocator_type())
 		{	// construct from initializer_list, comparator
 		this->insert(_Ilist.begin(), _Ilist.end());
 		}
 
-	hash_multimap(_XSTD initializer_list<value_type> _Ilist,
+	hash_multimap(std::initializer_list<value_type> _Ilist,
 		const key_compare& _Pred, const allocator_type& _Al)
 		: _Mybase(_Pred, _Al)
 		{	// construct from initializer_list, comparator, and allocator
 		this->insert(_Ilist.begin(), _Ilist.end());
 		}
 
-	_Myt& operator=(_XSTD initializer_list<value_type> _Ilist)
+	_Myt& operator=(std::initializer_list<value_type> _Ilist)
 		{	// assign initializer_list
 		this->clear();
 		this->insert(_Ilist.begin(), _Ilist.end());
 		return (*this);
 		}
 
-	void insert(_XSTD initializer_list<value_type> _Ilist)
+	void insert(std::initializer_list<value_type> _Ilist)
 		{	// insert initializer_list
 		this->insert(_Ilist.begin(), _Ilist.end());
 		}
@@ -519,32 +519,32 @@ public:
 	typedef _STD reverse_iterator<iterator> reverse_iterator;
 	typedef _STD reverse_iterator<const_iterator> const_reverse_iterator;
 
-	reverse_iterator rbegin() _NOEXCEPT
+	reverse_iterator rbegin() noexcept
 		{	// return iterator for beginning of reversed mutable sequence
 		return (reverse_iterator(this->end()));
 		}
 
-	const_reverse_iterator rbegin() const _NOEXCEPT
+	const_reverse_iterator rbegin() const noexcept
 		{	// return iterator for beginning of reversed nonmutable sequence
 		return (const_reverse_iterator(this->end()));
 		}
 
-	reverse_iterator rend() _NOEXCEPT
+	reverse_iterator rend() noexcept
 		{	// return iterator for end of reversed mutable sequence
 		return (reverse_iterator(this->begin()));
 		}
 
-	const_reverse_iterator rend() const _NOEXCEPT
+	const_reverse_iterator rend() const noexcept
 		{	// return iterator for end of reversed nonmutable sequence
 		return (const_reverse_iterator(this->begin()));
 		}
 
-	const_reverse_iterator crbegin() const _NOEXCEPT
+	const_reverse_iterator crbegin() const noexcept
 		{	// return iterator for beginning of reversed nonmutable sequence
 		return (rbegin());
 		}
 
-	const_reverse_iterator crend() const _NOEXCEPT
+	const_reverse_iterator crend() const noexcept
 		{	// return iterator for end of reversed nonmutable sequence
 		return (rend());
 		}
