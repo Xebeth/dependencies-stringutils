@@ -46,8 +46,8 @@ template<typename T> std::basic_string<T>& format(std::basic_string<T> &String_o
 {
 	if (pFormat_in != nullptr)
 	{
-		std::basic_string<T>::size_type StrLength = get_format_length(pFormat_in, ArgList_in);
-		std::basic_string<T>::size_type DataSize = StrLength * sizeof(T);
+		typename std::basic_string<T>::size_type StrLength = get_format_length(pFormat_in, ArgList_in);
+		typename std::basic_string<T>::size_type DataSize = StrLength * sizeof(T);
 
 		// abort if _vsctprintf failed
 		if (DataSize != 0)
@@ -162,8 +162,8 @@ template<typename T> std::basic_string<T>& pad(const std::basic_string<T> &Strin
 template<typename T> typename std::basic_string<T>& replace(std::basic_string<T> &String_in_out, const std::basic_string<T> &Find_in, 
 															const std::basic_string<T> &Replace_in, typename std::basic_string<T>::size_type StrPos_in = 0UL)
 {
-	std::basic_string<T>::size_type ReplaceLength = Replace_in.length();
-	std::basic_string<T>::size_type FindLength = Find_in.length();
+	typename std::basic_string<T>::size_type ReplaceLength = Replace_in.length();
+	typename std::basic_string<T>::size_type FindLength = Find_in.length();
 
 	while((StrPos_in = String_in_out.find(Find_in, StrPos_in)) != std::basic_string<T>::npos)
 	{
@@ -310,7 +310,7 @@ template<typename T> typename std::basic_string<T>::size_type filepath(const T* 
 			if ((Attributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 			{
 				// find the last backslash
-				std::basic_string<T>::size_type position = path.find_last_of('\\');
+				typename std::basic_string<T>::size_type position = path.find_last_of('\\');
 
 				if (position != std::basic_string<T>::npos)
 					path[position] = '\0';
