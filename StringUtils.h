@@ -9,6 +9,7 @@
 #define __STRING_UTILS_H__
 
 #include <NonCopyable.h>
+#include <unordered_map>
 #include <tchar.h>
 #include <string>
 #include <vector>
@@ -16,7 +17,6 @@
 
 #define _STRING_UTILS_SDK_INCLUDE_
 
-#include <hash_map.h>
 #include <string_t.h>
 #include <utf8_convert.h>
 
